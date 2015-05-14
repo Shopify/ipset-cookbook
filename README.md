@@ -9,7 +9,7 @@ Linux.  Based on the `iptables` cookbook from Opscode.
 Debian / Ubuntu only at the moment.
 
 
-### ipset::default
+## Usage
 
 Include `ipset` in your node's `run_list` to ensure `ipset` is
 installed and `rebuild-ipset` script is on the system.  The `ipset`
