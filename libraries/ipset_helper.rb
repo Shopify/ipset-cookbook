@@ -11,7 +11,7 @@ module Ipset
         if v.is_a?(FalseClass)
           next
         elsif v.is_a?(TrueClass)
-          options << "#{k}"
+          options << k.to_s
         else
           options << "#{k} #{v}"
         end

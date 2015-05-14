@@ -42,7 +42,7 @@ action :add do
       :options => new_resource.options
     )
     backup false
-    notifies :run, resources(:execute => "rebuild-ipset")
+    notifies :run, "execute[rebuild-ipset]"
   end
 
   new_resource.updated_by_last_action(t.updated_by_last_action?)
@@ -59,7 +59,7 @@ action :remove do
   f = file ::File.join(set_dir, new_resource.name) do
     action :delete
     backup false
-    notifies :run, resources(:execute => "rebuild-ipset")
+    notifies :run, "execute[rebuild-ipset]"
   end
 
   new_resource.updated_by_last_action(f.updated_by_last_action?)
