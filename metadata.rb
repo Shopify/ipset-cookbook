@@ -1,0 +1,6 @@
+name             'ipset'
+maintainer       'Brad Ison'
+maintainer_email 'bison@garbagebrain.org'
+license          'Apache 2.0'
+description      'Installs/Configures ipset on Linux'
+version          '0.1.0'
