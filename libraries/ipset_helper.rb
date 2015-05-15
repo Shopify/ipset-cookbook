@@ -1,4 +1,5 @@
 module Ipset
+  # Helper functions available in all set templates.
   module TemplateHelpers
     # Turn an options hash into a string of options
     # for ipset.  Boolean options don't take arguments.
@@ -17,7 +18,7 @@ module Ipset
         end
       end
 
-      options.join(" ")
+      options.join(' ')
     end
   end
 end

@@ -33,10 +33,10 @@ action :create do
     cookbook new_resource.cookbook || 'ipset'
     helpers ::Ipset::TemplateHelpers
     variables(
-      :name => new_resource.name,
-      :type => new_resource.type,
-      :options => new_resource.options,
-      :entries => new_resource.entries,
+      name:    new_resource.name,
+      type:    new_resource.type,
+      options: new_resource.options,
+      entries: new_resource.entries
     )
     mode '0644'
     backup false
