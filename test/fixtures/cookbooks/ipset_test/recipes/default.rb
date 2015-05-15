@@ -1,22 +1,38 @@
 ipset "some-hosts" do
   type "hash:ip"
-  options netmask: 30, maxelem: 512, timeout: 86400
+  options netmask: 32, maxelem: 512, timeout: 86400
   action :create
-end
+  entries(
+    "127.0.0.1" => {
+      comment: "local-host",
+    },
 
-ipset_entry "local-host" do
-  set "some-hosts"
-  entry "127.0.0.2"
-  options nomatch: false, timeout: 43200
+    "127.0.0.2" => {
+      comment: "other-local",
+      timeout: 43200,
+    },
+  )
 end
 
 ipset "some-nets" do
   type "hash:net"
   action :create
+  entries(
+    "127.1.0.0/16" => {
+      comment: "local-net",
+      nomatch: true,
+    },
+
+    "127.2.0.0/16" => {
+      comment: "other-net",
+      nomatch: false,
+    },
+  )
 end
 
-ipset_entry "local-net" do
-  set "some-nets"
-  entry "127.0.0.0/8"
-  options nomatch: true
+ipset 'custom-set' do
+  source 'my_set.erb'
+  cookbook 'ipset_test'
+  options maxelem: 4096
+  action :create
 end

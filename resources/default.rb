@@ -21,5 +21,8 @@ actions :create, :remove
 default_action :create
 
 attribute :name, :kind_of => String, :name_attribute => true
-attribute :type, :kind_of => String, :default => "hash:ip"
+attribute :type, :kind_of => String, :default => 'hash:ip'
+attribute :source, :kind_of => String, :default => nil
+attribute :cookbook, :kind_of => String, :default => nil
 attribute :options, :kind_of => Hash, :default => {}
+attribute :entries, :kind_of => Hash, :default => {}

@@ -1,4 +1,6 @@
 #!<%= @hashbang %> -w
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 #
 # rebuild-ipset.rb -- Construct an ipset restore file from fragments.
 #
@@ -54,17 +56,6 @@ def generate_ipset
     next unless File.file?(set_file)
 
     data << File.read(set_file)
-
-    set_dir = set_file + ".d"
-
-    if File.directory?(set_dir)
-      Dir.foreach(set_dir) do |entry|
-        entry_file = File.join(set_dir, entry)
-        next unless File.file?(entry_file)
-
-        data << File.read(entry_file)
-      end
-    end
 
     data << "\n\n"
   end

@@ -13,7 +13,7 @@ module Ipset
         elsif v.is_a?(TrueClass)
           options << k.to_s
         else
-          options << "#{k} #{v}"
+          options << "#{k} \"#{v}\""
         end
       end
 

@@ -12,19 +12,30 @@ Debian / Ubuntu only at the moment.
 ## Usage
 
 Include `ipset` in your node's `run_list` to ensure `ipset` is
-installed and `rebuild-ipset` script is on the system.  The `ipset`
-and `ipset_entry` LWRPs will then be available:
+installed and the `rebuild-ipset` script is on the system.  The
+`ipset` LWRP will then be available:
 
 ```ruby
-ipset "some-hosts" do
-  type "hash:ip"
-  options netmask: 30, maxelem: 512, timeout: 86400
+ipset "some-nets" do
+  type "hash:net"
   action :create
+  entries(
+    "127.1.0.0/16" => {
+      comment: "local-net",
+      nomatch: true,
+    },
+
+    "127.2.0.0/16" => {
+      comment: "other-net",
+      nomatch: false,
+    },
+  )
 end
 
-ipset_entry "local-host" do
-  set "some-hosts"
-  entry "127.0.0.2"
-  options nomatch: false, timeout: 43200
+ipset 'custom-set' do
+  source 'my_set.erb'
+  cookbook 'ipset_test'
+  options maxelem: 4096
+  action :create
 end
 ```

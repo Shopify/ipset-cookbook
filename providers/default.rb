@@ -23,45 +23,36 @@ end
 use_inline_resources
 
 action :create do
-  execute "rebuild-ipset" do
-    command "/usr/sbin/rebuild-ipset"
+  execute 'rebuild-ipset' do
+    command '/usr/sbin/rebuild-ipset'
     action :nothing
   end
 
-  directory "/etc/ipset/sets.d/#{new_resource.name}.d"
-
-  t = template "/etc/ipset/sets.d/#{new_resource.name}" do
-    source "set.erb"
-    cookbook "ipset"
-    mode "0644"
+  template "/etc/ipset/sets.d/#{new_resource.name}" do
+    source new_resource.source || 'set.erb'
+    cookbook new_resource.cookbook || 'ipset'
     helpers ::Ipset::TemplateHelpers
     variables(
       :name => new_resource.name,
       :type => new_resource.type,
-      :options => new_resource.options
+      :options => new_resource.options,
+      :entries => new_resource.entries,
     )
+    mode '0644'
     backup false
-    notifies :run, "execute[rebuild-ipset]"
+    notifies :run, 'execute[rebuild-ipset]'
   end
-
-  new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
 
 action :remove do
-  execute "rebuild-ipset" do
-    command "/usr/sbin/rebuild-ipset"
+  execute 'rebuild-ipset' do
+    command '/usr/sbin/rebuild-ipset'
     action :nothing
   end
 
-  f = file "/etc/ipset/sets.d/#{new_resource.name}" do
+  file "/etc/ipset/sets.d/#{new_resource.name}" do
     action :delete
     backup false
-    notifies :run, "execute[rebuild-ipset]"
+    notifies :run, 'execute[rebuild-ipset]'
   end
-
-  directory "/etc/ipset/sets.d/#{new_resource.name}.d" do
-    action :delete
-  end
-
-  new_resource.updated_by_last_action(f.updated_by_last_action?)
 end
