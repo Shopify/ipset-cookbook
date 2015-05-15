@@ -1,0 +1,12 @@
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'vendor/bundle/**/*'
+
+Style/SingleSpaceBeforeFirstArg:
+  Exclude:
+    - 'metadata.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'libraries/ipset_helper.rb'
