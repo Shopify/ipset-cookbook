@@ -48,8 +48,9 @@ def generate_ipset
   EOS
 
   data << "\n"
-  data << "destroy"
-  data << "\n\n"
+  data << "flush\n"
+  data << "destroy\n"
+  data << "\n"
 
   Dir.foreach(SETS_D) do |e|
     set_file = File.join(SETS_D, e)
