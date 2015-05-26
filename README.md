@@ -1,5 +1,8 @@
 # Description
 
+**WARNING** This is a work-in-progress, and is pretty broken in terms
+of updating sets currently.  A fixed 1.0 version is coming soon.
+
 Installs and configures [ipset](http://ipset.netfilter.org/) on
 Linux.  Based on the `iptables` cookbook from Opscode.
 
