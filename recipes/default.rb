@@ -40,10 +40,11 @@ template '/usr/sbin/rebuild-ipset' do
   )
 end
 
-template '/etc/network/if-pre-up.d/00-ipset_load' do
-  source 'ipset_load.erb'
+file '/etc/network/if-pre-up.d/00-ipset_load' do
+  content <<-EOF
+    #!/bin/sh
+    /usr/sbin/rebuild-ipset
+    exit 0
+  EOF
   mode '0755'
-  variables(
-    ipset_save_file: '/etc/ipset/ipset-generated'
-  )
 end

@@ -21,6 +21,10 @@
 SETS_D = "/etc/ipset/sets.d/"
 OUTPUT = "/etc/ipset/ipset-generated"
 
+def current_sets
+  output = `/sbin/ipset list`
+  output.each_line.select { |l| l.include?('Name: ') }.map { |l| l.gsub('Name: ', '').strip }
+end
 
 def write_ipset(file, data)
   File.open("#{file}.new", "w") { |f| f.write(data) }
@@ -48,9 +52,6 @@ def generate_ipset
   EOS
 
   data << "\n"
-  data << "flush\n"
-  data << "destroy\n"
-  data << "\n"
 
   Dir.foreach(SETS_D) do |e|
     set_file = File.join(SETS_D, e)
@@ -64,6 +65,14 @@ def generate_ipset
   data
 end
 
+def clean_sets(new_sets_commands, current_sets)
+  current_sets.each do |set|
+    unless new_sets_commands.include?("create #{set}")
+      exit $?.exitstatus unless system("/sbin/ipset destroy #{set} -exist")
+    end
+  end
+end
 
-load_ipset(generate_ipset)
-exit $?.exitstatus
+new_sets_commands = generate_ipset
+load_ipset(new_sets_commands)
+clean_sets(new_sets_commands, current_sets)
