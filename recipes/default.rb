@@ -40,11 +40,7 @@ template '/usr/sbin/rebuild-ipset' do
   )
 end
 
-file '/etc/network/if-pre-up.d/00-ipset_load' do
-  content <<-EOF
-    #!/bin/sh
-    /usr/sbin/rebuild-ipset
-    exit 0
-  EOF
+file '/etc/network/if-pre-up.d/ipset-load' do
+  content "#!/bin/sh\n/usr/sbin/rebuild-ipset"
   mode '0755'
 end
